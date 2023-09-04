@@ -4,18 +4,26 @@
 <div class="row">
     <div class="col-md-5">
         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for messages in messages %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <p>{{ messages }}</p>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-
-        {% endfor %}
-        {% endif  %}
-        {% endwith %}
+		  {% if messages %}
+			{% for message in messages %}
+			  {% if 'success' in message %}
+				{% set alert_type = 'success' %}
+			  {% elif 'info' in message %}
+				{% set alert_type = 'info' %}
+			  {% elif 'warning' in message %}
+				{% set alert_type = 'warning' %}
+			  {% else %}
+				{% set alert_type = 'success' %}
+			  {% endif %}
+              <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert" id="flash-alert">
+				<p>{{ message }}</p>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+            {% endfor %}
+            {% endif  %}
+            {% endwith %}
         <div class="card card-body">
             <form action="/add_contact" method="POST">
                 <div class="form-group">
@@ -67,7 +75,9 @@
 
 
                         <a href="/edit/{{contact.0 }}" class="btn btn-secondary">Editar</a>
-                        <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">Eliminar</a>
+                        <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -75,5 +85,16 @@
         </table>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var flashAlert = document.getElementById('flash-alert');
+        
+        if (flashAlert) {
+            setTimeout(function() {
+                flashAlert.style.display = 'none';
+            }, 2000);  // 2000 milliseconds = 2 seconds
+        }
+    });
+</script>
 
 {% endblock %}

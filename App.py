@@ -6,7 +6,7 @@ app = Flask(__name__)
 #MYSQL CONECCION
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PASSWORD'] = 'root'
 app.config['MYSQL_DB'] = 'flaskcontact'
 mysql = MySQL(app)
 
@@ -33,7 +33,7 @@ def add_contact():
     cur.execute('INSERT INTO contact (fullname, lastname, phone, email) VALUES (%s, %s, %s, %s)',
     (fullname, lastname, phone, email)) 
     mysql.connection.commit()
-    flash('Contacto agregado satisfactorimente')
+    flash('Contacto agregado satisfactorimente','success')
     return redirect(url_for('inicio'))
 
 #Funcion de editar contacto
@@ -50,7 +50,7 @@ def delete_contact(id):
   cur = mysql.connection.cursor()
   cur.execute('DELETE FROM contact WHERE id = {0}'.format (id))
   mysql.connection.commit()
-  flash('Contacto removido satisfactoriamente')
+  flash('Contacto removido satisfactoriamente','warning')
   return redirect(url_for('inicio'))
 
 #Funcion de actualizar contactos
@@ -65,7 +65,7 @@ def update_contact(id):
     cur = mysql.connection.cursor()
     cur.execute(""" UPDATE contact SET fullname = %s, lastname = %s, phone = %s, email = %s WHERE id = %s """, (fullname, lastname, phone, email, id))
     mysql.connection.commit()
-    flash('Constacto Actualizado Satisfactoriamente')
+    flash('Contacto Actualizado Satisfactoriamente','info')
     return redirect(url_for('inicio'))
 
 #Construir el servidor 
