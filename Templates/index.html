@@ -47,9 +47,9 @@
         </div>
     </div>
     <div class="col-md-7">
-        <table class="table table-striped table-bordered bg-white table-sm">
+        <table class="table table-striped table-bordered bg-white table-sm rounded">
             <thead>
-                <tr>
+                <tr class="text-center bg-info">
                     <td>No.</td>
                     <td>Nombre</td>
                     <td>Apellido</td>
@@ -74,9 +74,11 @@
                     </div>
 
 
-                        <a href="/edit/{{contact.0 }}" class="btn btn-secondary">Editar</a>
+                        <a href="/edit/{{contact.0 }}" class="btn btn-info">
+                            <span class="fas fa-edit"></span>
+                        </a>
                         <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <span class="fas fa-trash"></span>
                         </a>
                     </td>
                 </tr>

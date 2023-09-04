@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
+from flask_fontawesome import FontAwesome
 
 app = Flask(__name__)
+fa = FontAwesome(app)
 
 #MYSQL CONECCION
 app.config['MYSQL_HOST'] = 'localhost'
