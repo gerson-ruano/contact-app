@@ -6,14 +6,14 @@
         {% with messages = get_flashed_messages() %}
 		  {% if messages %}
 			{% for message in messages %}
-			  {% if 'success' in message %}
+			  {% if 'agregado' in message %}
 				{% set alert_type = 'success' %}
-			  {% elif 'info' in message %}
+			  {% elif 'actualizado' in message %}
 				{% set alert_type = 'info' %}
-			  {% elif 'warning' in message %}
+			  {% elif 'removido' in message %}
 				{% set alert_type = 'warning' %}
 			  {% else %}
-				{% set alert_type = 'success' %}
+				{% set alert_type = 'info' %}
 			  {% endif %}
               <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert" id="flash-alert">
 				<p>{{ message }}</p>
@@ -33,10 +33,10 @@
                     <input required type="text" name="lastname" placeholder="Apellido" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input required type="tel" minlength="8" maxlength="8"  name="phone" placeholder="Telefono" class="form-control">
+                    <input required type="text" minlength="8" maxlength="8"  name="phone" placeholder="Telefono" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input required type="text" name="email" placeholder="correo" class="form-control">
+                    <input required type="email" name="email" placeholder="correo" class="form-control">
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block">
@@ -49,7 +49,7 @@
     <div class="col-md-7">
         <table class="table table-striped table-bordered bg-white table-sm rounded">
             <thead>
-                <tr class="text-center bg-info">
+                <tr class="text-center text-white bg-primary">
                     <td>No.</td>
                     <td>Nombre</td>
                     <td>Apellido</td>
@@ -60,8 +60,8 @@
             </thead>
             <tbody>
                 {% for contact in contacts %}
-                <tr>
-                    <td>{{ contact.0}}</td>
+                <tr class="text-center">
+                    <td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td>
                     <td>{{ contact.1}}</td>
                     <td>{{ contact.2}}</td>
                     <td>{{ contact.3}}</td>
@@ -70,21 +70,26 @@
                        <!--v class="btn-group" role="group" aria-label="">Editar
                         <button type="button" class="btn btn-warning">Editar</button>
                         <button type="button" class="btn btn-warning">Borrar</button-->
-
                     </div>
-
-
                         <a href="/edit/{{contact.0 }}" class="btn btn-info">
                             <span class="fas fa-edit"></span>
                         </a>
                         <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">
                             <span class="fas fa-trash"></span>
                         </a>
+
+                        <!--a href="#" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#confirmDeleteModal_{{ contact.0 }}">
+                            <span class="fas fa-trash"></span>
+                        </a-->
+                        
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <div class="pagination">
+            {{ pagination.links }}
+        </div>
     </div>
 </div>
 <script>
@@ -96,6 +101,14 @@
                 flashAlert.style.display = 'none';
             }, 2000);  // 2000 milliseconds = 2 seconds
         }
+    });
+
+    $(document).ready(function () {
+        // Delegación del evento para activar el modal
+        $('.table').on('click', '.btn-delete', function () {
+            var targetModalId = $(this).data('target');
+            $(targetModalId).modal('show');
+        });
     });
 </script>
 

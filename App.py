@@ -1,27 +1,32 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_fontawesome import FontAwesome
+from flask_paginate import Pagination
+from config import Config  # Importa la clase Config desde el archivo config.py
 
 app = Flask(__name__)
 fa = FontAwesome(app)
 
-#MYSQL CONECCION
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'flaskcontact'
-mysql = MySQL(app)
+# Configura la aplicación con las configuraciones de la clase Config
+app.config.from_object(Config)
 
-#CONFIGURACION 
-app.secret_key = 'mysecretkey'
+# MYSQL CONECCION
+mysql = MySQL(app)
 
 #index de aplicacion
 @app.route('/')
 def inicio():
+  page = request.args.get('page', type=int, default=1)
+  per_page = 12  # Número de elementos por página
+
   cur = mysql.connection.cursor()
   cur.execute(' SELECT * FROM contact')
   data = cur.fetchall()
-  return render_template('/index.html', contacts = data)
+
+  pagination = Pagination(page=page, total=len(data), record_name='contacts', per_page=per_page)
+
+    # Asegúrate de pasar solo los elementos necesarios según la página actual
+  return render_template('/index.html', contacts=data[(page-1)*per_page:page*per_page], pagination=pagination)
 
 #Funcion de agregar contacto
 @app.route('/add_contact', methods = ['POST'])
@@ -35,7 +40,7 @@ def add_contact():
     cur.execute('INSERT INTO contact (fullname, lastname, phone, email) VALUES (%s, %s, %s, %s)',
     (fullname, lastname, phone, email)) 
     mysql.connection.commit()
-    flash('Contacto agregado satisfactorimente','success')
+    flash('Contacto agregado satisfactorimente')
     return redirect(url_for('inicio'))
 
 #Funcion de editar contacto
@@ -52,7 +57,8 @@ def delete_contact(id):
   cur = mysql.connection.cursor()
   cur.execute('DELETE FROM contact WHERE id = {0}'.format (id))
   mysql.connection.commit()
-  flash('Contacto removido satisfactoriamente','warning')
+  flash('Contacto removido satisfactoriamente')
+  #return render_template('confirm_modal.html', contact = data[0])
   return redirect(url_for('inicio'))
 
 #Funcion de actualizar contactos
@@ -67,7 +73,7 @@ def update_contact(id):
     cur = mysql.connection.cursor()
     cur.execute(""" UPDATE contact SET fullname = %s, lastname = %s, phone = %s, email = %s WHERE id = %s """, (fullname, lastname, phone, email, id))
     mysql.connection.commit()
-    flash('Contacto Actualizado Satisfactoriamente','info')
+    flash('Contacto actualizado Satisfactoriamente')
     return redirect(url_for('inicio'))
 
 #Construir el servidor 

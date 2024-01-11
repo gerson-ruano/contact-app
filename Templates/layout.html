@@ -4,10 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CONTACT APP</title>
+  <title>ContactApp</title>
   <!--link rel="stylesheet" href="static/css/bootstrap.css"-->
+  <!-- Asegúrate de cargar jQuery antes de Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"-->
 
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
   {{ fontawesome_html() }}
@@ -23,20 +28,19 @@
       <span class="navbar-toggler-icon"></span>
     </button>
   </nav>
-  <div class="container pt-4">
+  <div class="container pt-5">
     {% block body %}
     {% endblock %}
-  </div>
-
-  <footer class="text-center pt-4">
-    <h4>
-      by Gerson Ruano 2023
-    </h4>
-  </footer>  
+  </div><br>
+  <footer class="text-center mt-10 footer">
+    <h5>
+        by Gerson Ruano 2023
+    </h5>
+</footer>
 
   <!--SCRIPT--> 
-  <script src="static/js/bootstrap.min.js"></script>
-  <script src="static/js/jquery-3.4.1.min.js"></script>
+  <!--script src="static/js/bootstrap.min.js"></script>
+  <script src="static/js/jquery-3.4.1.min.js"></script-->
   <script src="{{url_for('static', filename='js/main.js')}}"></script>
 </body>
 
