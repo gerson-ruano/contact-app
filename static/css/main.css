@@ -5,14 +5,18 @@ background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, F
 
 }
 .content {
-    padding-bottom: 50px; /* Ajusta el espacio en la parte inferior para evitar que el pie de página se superponga al contenido */
+    padding-bottom: 10px; /* Ajusta el espacio en la parte inferior para evitar que el pie de página se superponga al contenido */
 }
 
-.footer {
+/*.footer {
     position: absolute;
     bottom: 0;
     width: 100%;
     background-color: #333;
     color: white;
     padding: 10px;
+}*/
+
+.custom-table {
+    border-radius: 30px; /* O el valor que desees */
 }

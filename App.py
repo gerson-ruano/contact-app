@@ -17,19 +17,28 @@ mysql = MySQL(app)
 @app.route('/')
 def inicio():
   page = request.args.get('page', type=int, default=1)
-  per_page = 12  # Número de elementos por página
+  per_page = 5  # Número de elementos por página
 
+  search_query = request.args.get('q', default='')
   cur = mysql.connection.cursor()
-  cur.execute(' SELECT * FROM contact')
-  data = cur.fetchall()
-
+  if search_query:
+        # Realiza una búsqueda filtrada
+      cur.execute('SELECT * FROM contact WHERE fullname LIKE %s OR id LIKE %s', ('%' + search_query + '%', '%' + search_query + '%'))
+  else:
+      # Sin búsqueda, recupera todos los contactos
+      cur.execute('SELECT * FROM contact')
+  data = cur.fetchall()  
   pagination = Pagination(page=page, total=len(data), record_name='contacts', per_page=per_page)
-
-    # Asegúrate de pasar solo los elementos necesarios según la página actual
+  
+  #cur = mysql.connection.cursor()
+  #cur.execute(' SELECT * FROM contact')
+  #data = cur.fetchall()
+  #pagination = Pagination(page=page, total=len(data), record_name='contacts', per_page=per_page)
+    ## Asegúrate de pasar solo los elementos necesarios según la página actual
   return render_template('/index.html', contacts=data[(page-1)*per_page:page*per_page], pagination=pagination)
 
 #Funcion de agregar contacto
-@app.route('/add_contact', methods = ['POST'])
+@app.route('/add_contact', methods = ['GET','POST'])
 def add_contact():
   if request.method == 'POST':
     fullname = request.form['fullname']
@@ -42,6 +51,7 @@ def add_contact():
     mysql.connection.commit()
     flash('Contacto agregado satisfactorimente')
     return redirect(url_for('inicio'))
+  return render_template('add_contact.html')  # Renderiza la plantilla para GET
 
 #Funcion de editar contacto
 @app.route('/edit/<id>')

@@ -23,15 +23,18 @@
     <a class="navbar-brand" href="/">CONTACT APP
       <span class="fas fa-address-card"></span>
     </a>
+	<a class="navbar-brand" href="/add_contact">AGREGAR
+      <span class="fas fa-plus-square"></span>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   </nav>
-  <div class="container pt-5">
+  <div class="container pt-2">
     {% block body %}
     {% endblock %}
-  </div><br>
+  </div><br class="">
   <footer class="text-center mt-10 footer">
     <h5>
         by Gerson Ruano 2023
@@ -43,5 +46,4 @@
   <script src="static/js/jquery-3.4.1.min.js"></script-->
   <script src="{{url_for('static', filename='js/main.js')}}"></script>
 </body>
-
 </html>
