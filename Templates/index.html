@@ -1,37 +1,34 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="container">
-    <div class="col-md-5">
-        <div class="d-flex justify-content-center">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            {% if 'agregado' in message %}
-            {% set alert_type = 'success' %}
-            {% elif 'actualizado' in message %}
-            {% set alert_type = 'info' %}
-            {% elif 'removido' in message %}
-            {% set alert_type = 'danger' %}
-            {% else %}
-            {% set alert_type = 'warning' %}
-            {% endif %}
-            <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert" id="flash-alert">
-                <p>{{ message }}</p>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </div>
+
+<div id="flash-alert-container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    {% if 'agregado' in message %}
+    {% set alert_type = 'success' %}
+    {% elif 'actualizado' in message %}
+    {% set alert_type = 'info' %}
+    {% elif 'removido' in message %}
+    {% set alert_type = 'danger' %}
+    {% else %}
+    {% set alert_type = 'warning' %}
+    {% endif %}
+    <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert" id="flash-alert">
+        <p>{{ message }}</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 </div>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <div class="card card-body">
+            <div class="card card-body text-center">
                 <form action="/" method="GET">
                     <div class="form-group">
                         <input type="text" name="q" placeholder="Buscar por nombre" class="form-control"
@@ -46,6 +43,34 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+                <!-- Botón de cierre del modal -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este contacto?
+            </div>
+            <div class="modal-footer">
+                <!-- Botón Cancelar con el atributo para cerrar el modal -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                
+                <!-- Formulario que realiza la eliminación -->
+                <form id="deleteForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-md-12 mt-2">
         {% if contacts %}
@@ -69,22 +94,23 @@
                         <td>{{ contact.2}}</td>
                         <td>{{ contact.3}}</td>
                         <td>{{ contact.4}}</td>
-                        <td>
+                        <td class="actions">
                             <a href="/edit/{{contact.0 }}" class="btn btn-info">
                                 <span class="fas fa-edit"></span>
                             </a>
-                            <a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">
-                                <span class="fas fa-trash"></span>
-                            </a>
-
-                            <!--a href="#" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#confirmDeleteModal_{{ contact.0 }}">
+                            <!--a href="/delete/{{ contact.0 }}" class="btn btn-danger btn-delete">
                                 <span class="fas fa-trash"></span>
                             </a-->
+                            <a href="javascript:void(0);" class="btn btn-danger btn-delete" data-id="{{ contact.0 }}"
+                                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+
         </div>
         <div class="pagination">
             {{ pagination.links }}
@@ -101,19 +127,37 @@
         var flashAlert = document.getElementById('flash-alert');
 
         if (flashAlert) {
+            flashAlert.style.display = 'block'; // Muestra la notificación con efecto de desvanecimiento
+            flashAlert.style.opacity = '1';
+
             setTimeout(function () {
-                flashAlert.style.display = 'none';
-            }, 2000);  // 2000 milliseconds = 2 seconds
+                flashAlert.style.opacity = '0';
+                setTimeout(function () {
+                    flashAlert.style.display = 'none';
+                }, 500); // Espera que la opacidad llegue a 0 antes de ocultar
+            }, 3000);  // 3 segundos antes de desaparecer
         }
     });
 
-    $(document).ready(function () {
-        // Delegación del evento para activar el modal
-        $('.table').on('click', '.btn-delete', function () {
-            var targetModalId = $(this).data('target');
-            $(targetModalId).modal('show');
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const contactId = button.getAttribute('data-id');
+                const deleteForm = document.getElementById('deleteForm');
+
+                // Set the form action dynamically based on the contact's ID
+                deleteForm.action = '/delete/' + contactId;
+
+                // Trigger the modal to open
+                const myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+                myModal.show();
+            });
         });
+        
     });
+
+
 </script>
 
 {% endblock %}

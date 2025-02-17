@@ -8,15 +8,49 @@ background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, F
     padding-bottom: 10px; /* Ajusta el espacio en la parte inferior para evitar que el pie de página se superponga al contenido */
 }
 
-/*.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: #333;
-    color: white;
-    padding: 10px;
-}*/
-
 .custom-table {
-    border-radius: 30px; /* O el valor que desees */
+  border-radius: 40px; /* Ajusta el valor según el nivel de redondeo deseado */
+  overflow: hidden; /* Evita que los bordes internos se sobresalgan */
+  border-collapse: separate; /* Separa los bordes para permitir el redondeo */
+  border-spacing: 0; 
 }
+
+/* main.css */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container {
+    flex: 1;
+  }
+  
+  footer {
+    margin-top: auto; /* Esto empuja el footer al fondo */
+  }
+
+  .actions {
+    display: flex;
+    gap: 5px; /* Espaciado entre botones */
+    justify-content: center; /* Centrar los botones */
+    flex-wrap: nowrap; /* Evita que los botones se muevan a una nueva línea */
+}
+
+#flash-alert-container {
+  position: fixed;
+  top: 20px; /* Espacio desde arriba */
+  right: 20px; /* Espacio desde la izquierda */
+  z-index: 1050; /* Para que esté sobre otros elementos */
+  width: 300px; /* Ancho controlado */
+}
+
+#flash-alert {
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+  

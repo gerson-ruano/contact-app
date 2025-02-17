@@ -1,20 +1,30 @@
-<!-- Modal de Confirmación de Eliminación -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+                <!-- Botón de cierre del modal -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ¿Estás seguro de que quieres eliminar este contacto?
+                ¿Estás seguro de que deseas eliminar este contacto?
             </div>
             <div class="modal-footer">
+                <!-- Botón Cancelar con el atributo para cerrar el modal -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <a href="/delete/{{ contact.0 }}" class="btn btn-danger">Eliminar</a>
+                
+                <!-- Formulario que realiza la eliminación -->
+                <form id="deleteForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
+
+

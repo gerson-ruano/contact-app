@@ -17,7 +17,7 @@ mysql = MySQL(app)
 @app.route('/')
 def inicio():
   page = request.args.get('page', type=int, default=1)
-  per_page = 5  # Número de elementos por página
+  per_page = 10  # Número de elementos por página
 
   search_query = request.args.get('q', default='')
   cur = mysql.connection.cursor()
@@ -62,14 +62,13 @@ def get_contact(id):
   return render_template('edit-contact.html', contact = data[0])
   
 #Funcion de Eliminar contactos
-@app.route('/delete/<string:id>')
+@app.route('/delete/<string:id>', methods=['POST'])
 def delete_contact(id):
-  cur = mysql.connection.cursor()
-  cur.execute('DELETE FROM contact WHERE id = {0}'.format (id))
-  mysql.connection.commit()
-  flash('Contacto removido satisfactoriamente')
-  #return render_template('confirm_modal.html', contact = data[0])
-  return redirect(url_for('inicio'))
+    cur = mysql.connection.cursor()
+    cur.execute('DELETE FROM contact WHERE id = %s', (id,))
+    mysql.connection.commit()
+    flash('Contacto removido satisfactoriamente')
+    return redirect(url_for('inicio'))
 
 #Funcion de actualizar contactos
 @app.route('/update/<id>', methods = ['POST'])
