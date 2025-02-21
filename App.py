@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_fontawesome import FontAwesome
 from flask_paginate import Pagination
-from config import Config  # Importa la clase Config desde el archivo config.py
+from bd.config import Config  # Importa la clase Config desde el archivo config.py
 
 app = Flask(__name__)
 fa = FontAwesome(app)
@@ -67,7 +67,7 @@ def delete_contact(id):
     cur = mysql.connection.cursor()
     cur.execute('DELETE FROM contact WHERE id = %s', (id,))
     mysql.connection.commit()
-    flash('Contacto removido satisfactoriamente')
+    flash('Contacto removido Satisfactoriamente')
     return redirect(url_for('inicio'))
 
 #Funcion de actualizar contactos
