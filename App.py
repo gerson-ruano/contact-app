@@ -4,6 +4,9 @@ from flask_fontawesome import FontAwesome
 from flask_paginate import Pagination
 from bd.config import Config  # Importa la clase Config desde el archivo config.py
 
+import sys
+print(sys.path)
+
 app = Flask(__name__)
 fa = FontAwesome(app)
 
