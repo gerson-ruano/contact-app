@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_fontawesome import FontAwesome
 from flask_paginate import Pagination
-from bd.config import Config  # Importa la clase Config desde el archivo config.py
+from bd.config import Config  # Importa la clase Config
 
 import sys
 print(sys.path)
@@ -10,7 +10,7 @@ print(sys.path)
 app = Flask(__name__)
 fa = FontAwesome(app)
 
-# Configura la aplicación con las configuraciones de la clase Config
+# Configuraciones de la clase Config
 app.config.from_object(Config)
 
 # MYSQL CONECCION
@@ -37,7 +37,7 @@ def inicio():
   #cur.execute(' SELECT * FROM contact')
   #data = cur.fetchall()
   #pagination = Pagination(page=page, total=len(data), record_name='contacts', per_page=per_page)
-    ## Asegúrate de pasar solo los elementos necesarios según la página actual
+  ## Asegúrate de pasar solo los elementos necesarios según la página actual
   return render_template('/index.html', contacts=data[(page-1)*per_page:page*per_page], pagination=pagination)
 
 #Funcion de agregar contacto

@@ -1,6 +1,0 @@
-projectKey=Flask-contacts
-serverUrl=http://localhost:9000
-serverVersion=6.7.7.38951
-dashboardUrl=http://localhost:9000/dashboard/index/Flask-contacts
-ceTaskId=AXU4UBkXVw_wEm9fQvgP
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXU4UBkXVw_wEm9fQvgP
