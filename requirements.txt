@@ -1,0 +1,4 @@
+Flask>=2.3.0
+Flask-MySQLdb>=1.0.1
+flask-fontawesome>=0.1.5
+flask-paginate>=2023.3.4

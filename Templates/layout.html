@@ -25,12 +25,20 @@
       <span class="fas fa-address-card"></span>
     </a>
 	<a class="navbar-brand" href="/add_contact">AGREGAR
-      <span class="fas fa-plus-square"></span>
+      <span class="fas fa-plus-square btn btn-secondary"></span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- Aquí agregamos el buscador -->
+      <form class="form-inline ml-auto" action="/" method="GET">
+        <input type="text" name="q" placeholder="Buscar por nombre" class="form-control mr-2"
+               value="{{ request.args.get('q', '') }}">
+        <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+      </form>
+    </div>
   </nav>
   <div class="container pt-2">
     {% block body %}
